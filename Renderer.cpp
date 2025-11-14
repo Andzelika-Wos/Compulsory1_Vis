@@ -29,7 +29,7 @@ Renderer::Renderer(QVulkanWindow *w, bool msaa)
     mObjects.at(0)->setName("axis");
     mObjects.at(1)->setName("lasdata");
     mObjects.at(1)->rotate(-90,1,0,0);
-    mObjects.at(1)->scale(0.1);
+    mObjects.at(1)->scale(0.5);
 
 
     // **************************************
