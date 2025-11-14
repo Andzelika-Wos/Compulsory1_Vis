@@ -130,36 +130,31 @@ bool ObjMesh::readObjFile(const std::string& filename)
                     uv = std::stoi(segmentArray[1]);
                 else
                 {
-                    qDebug() << "No UVs in mesh!!!";            //uv not present
-                    uv = 0;                                     //this will become -1 in a couple of lines
-                }
-                normal = std::stoi(segmentArray[2]);            //third is normal
-
-                //Fixing the indexes
-                //because obj f-lines starts with 1, not 0
-                --index;
-                --uv;
-                --normal;
-
-                if (uv > -1)    //uv present!
-                {
-                    Vertex tempVert(tempVertecies[index], tempNormals[normal], tempUVs[uv]);
+                    Vertex tempVert(tempVertecies[index],
+                                    tempNormals[normal], QVector2D(0.0f, 0.0f));
                     mVertices.push_back(tempVert);
+
                 }
-                else            //no uv in mesh data, use 0, 0 as uv
-                {
-                    Vertex tempVert(tempVertecies[index], tempNormals[normal], QVector2D(0.0f, 0.0f));
-                    mVertices.push_back(tempVert);
-                }
-                //We have now handeled one Vertex on the f-line - add it to indices
+
                 mIndices.push_back(temp_index++);
             }
             continue;
         }
     }
+    if(mVertices.empty() && !tempVertecies.empty())
+    {
+        for(const auto&v:tempVertecies)
+        {
+            Vertex vert(v, QVector3D(0, 0, 1), QVector2D(0, 0));
+            mVertices.push_back(vert);
+            mIndices.push_back(temp_index++);
+        }
+        drawType = 1;
+    }
+
     // beeing a nice boy and closing the file after use
     fileIn.close();
-    
+
     qDebug() << filename.c_str() << " successfully loaded";
 
     return true;

@@ -179,7 +179,7 @@ void VulkanWindow::wheelEvent(QWheelEvent *event)
         if (numDegrees.y() < 1)
             setCameraSpeed(-0.002f);
         if (numDegrees.y() > 1)
-            setCameraSpeed(0.002f);
+            setCameraSpeed(0.02f);
     }
     qDebug("CameraSpeed: %f", mCameraSpeed);
 }
